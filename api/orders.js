@@ -24,4 +24,3 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Error al obtener ventas', detalle: error.message });
   }
 }
-Mover orders.js a ubicación correcta
