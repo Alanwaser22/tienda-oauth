@@ -5,9 +5,6 @@ export default async function handler(req, res) {
   const clientSecret = process.env.CLIENT_SECRET;
   const redirectUri = process.env.REDIRECT_URI;
 
-  console.log("🧪 Datos recibidos en callback:");
-  console.log({ code, shop, clientId, clientSecret, redirectUri });
-
   try {
     const response = await fetch(`https://${shop}/admin/oauth/token`, {
       method: "POST",
@@ -22,18 +19,11 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    console.log("📥 Respuesta de Tiendanube:", data);
+    console.log("Respuesta completa:", data); // <-- Log completo
 
-    if (!response.ok) {
-      return res.status(response.status).json({
-        error: 'Error desde Tiendanube',
-        detalle: data,
-      });
-    }
-
-    return res.status(200).json({ success: true, token: data.access_token });
+    res.status(200).json({ success: true, data }); // <-- Mostramos todo el JSON
   } catch (error) {
-    console.error("🔥 Error inesperado:", error);
-    return res.status(500).json({ error: 'Error en el servidor', detalle: error.message });
+    console.error("Error en callback:", error);
+    res.status(500).json({ success: false, error: error.message });
   }
 }
