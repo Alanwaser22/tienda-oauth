@@ -1,9 +1,9 @@
 export default async function handler(req, res) {
   const { code, shop } = req.query;
 
-  const clientId = "18797";
-  const clientSecret = "4d614ebc8b353457c3b10b382b3d8e7c774674b1c526e740";
-  const redirectUri = "https://tienda-oauth.vercel.app/api/callback";
+ const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+const redirectUri = process.env.REDIRECT_URI;
 
   const response = await fetch(`https://${shop}/admin/oauth/token`, {
     method: "POST",
